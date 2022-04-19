@@ -11,7 +11,7 @@ module.exports = {
   getSingleUser(req, res) {
     User.findOne({ _id: req.params.id })
       .populate('thoughts')
-      /populate('friends')
+      .populate('friends')
       .select('-__v')
       .then((user) =>
         !user
@@ -57,9 +57,9 @@ module.exports = {
   // Add friend
   addFriend(req, res) {
     User.findOneAndUpdate(
-        { _id: req.params.id },
-        { $set: {friends: req.params.body} },
-        { runValidators: true }
+        { _id: req.params.userId },
+        { $set: {friends: req.params.friendId} },
+        { runValidators: true, new: true }
       )
         .then((user) =>
           !user
@@ -74,9 +74,9 @@ module.exports = {
   // Remove friend
   removeFriend(req, res) {
     User.findOneAndUpdate(
-        { _id: req.params.id },
-        { $set: {friends: req.params.body} },
-        { runValidators: true }
+        { _id: req.params.userId },
+        { $set: {friends: req.params.friendId} },
+        { runValidators: true, new: true }
       )
         .then((user) =>
           !user
