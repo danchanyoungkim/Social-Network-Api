@@ -20,19 +20,19 @@ module.exports = {
     // Create thought
     createThought(req, res) {
         Thought.create(req.body)
-            .then((thoughts) => {
+            .then(({_id}) => {
                 return User.findOneAndUpdate(
                     { _id: req.body.userId },
-                    { $addToSet: { thoughts: thoughts._id } },
+                    { $push: { thoughts: _id } },
                     { new: true }
                 );
             })
             .then((user) =>
                 !user
                     ? res.status(404).json({
-                        message: 'Thought created, but found no user with that ID.'
+                        message: 'No user with this id!'
                     })
-                    : res.json("Created the Thought.")
+                    : res.json("Thought created.")
             )
     },
     // Update thought
@@ -44,7 +44,7 @@ module.exports = {
         )
             .then((thought) =>
                 !thought
-                    ? res.status(404).json({ message: 'There is no thought with that ID.' })
+                    ? res.status(404).json({ message: 'No thought with this id!' })
                     : res.json(thought)
             )
             .catch((err) => {
@@ -66,8 +66,8 @@ module.exports = {
             )
             .then((user) =>
                 !user
-                    ? res.status(404).json({ message: "Thought created, but there are no users with that ID." })
-                    : res.json({ message: "Thought successfully deleted." })
+                    ? res.status(404).json({ message: "No user with this id!" })
+                    : res.json({ message: "Deleted." })
             )
             .catch((err) => res.status(500).json(err));
     },
