@@ -13,6 +13,8 @@
   - [License](#license)
 
   ## Description
+  [Video Walkthrough](https://www.youtube.com/watch?v=hO3E2H9cRCc&ab_channel=DanKim)
+  
   Creating a backend of a social network api, this project was created in order to further understand the structure and function of backend.
 
   ## Installation
